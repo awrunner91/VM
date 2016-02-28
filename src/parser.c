@@ -34,11 +34,11 @@ int main()
 	/* Create the output file to write hex to. */
 	outfile = fopen("output.txt","w+");
 
-	/* Read file content, parse instruction, and write to output file. */
+	/* Loop and write hex instr to output. */
 	while (fgets(buffer,BUFFSIZE,stdin) != NULL)
 	{
 		create_hex_instr(buffer,hex_instr);
-		fprintf(outfile,"%s",hex_instr);
+		fprintf(outfile,"%s\n",hex_instr);
 	}
 
 	/* Free memory and close the file. */

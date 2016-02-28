@@ -10,6 +10,24 @@
 #include <math.h>
 
 /**
+ * Function to get the minimum of two integers.
+ * a: First argument.
+ * b: Second argument.
+ * return: Integer size of smaller of a and b.
+**/
+int get_min(int a,int b)
+{
+	if (a > b)
+	{
+		return b;
+	}
+	else
+	{
+		return a;
+	}
+}
+
+/**
  * Function to get the instruction code
  * from the buffer.
  * instr: Pointer to array that holds the instruction.
@@ -20,12 +38,16 @@ int get_instr_code(char *instr)
 	int SAME = 0;				//Used for str comparisons.
 	int ERROR = -1;				//Used if instruction not found.
 	int NUMCODES = 3;			//Number of instructions/codes. CHANGE!!!!
+	int instr_size = strlen(instr);		//Length of argument string.
+	int MAXCHARS;				//Will hold max number of chars for strncmp.
 	char *codes[] = {"HALT","LOAD","ADD"};	//Array of instructions.
 
 	/* Iterate and find index for instruction */
 	for (int codeNum = 0; codeNum < NUMCODES; codeNum++) 
 	{
-		if (strcmp(instr,codes[codeNum]) == SAME) 
+		MAXCHARS = get_min(instr_size,strlen(codes[codeNum]));	
+	
+		if (strncmp(instr,codes[codeNum],MAXCHARS) == SAME) 
 		{
 			return codeNum;
 		}
@@ -45,6 +67,8 @@ int get_reg_code(char *reg)
 	int SAME = 0;				//Used for str comparisons.
 	int ERROR = -1;				//Used if register number is invalid.
 	int NUMREGS = 4;			//Number of possible registers. CHANGE!!!!
+	int MAXCHARS;				//Will hold max number of chars for strncmp.
+	int reg_size = strlen(reg);		//Length of argument string.
 	char *regs[] = {"R0","R1","R2","R3"};	//Array of registers.
 
 	/* Deal with empty case. */
@@ -55,7 +79,9 @@ int get_reg_code(char *reg)
 	/* Iterate and find index of register. */
 	for (int regNum = 0; regNum < NUMREGS; regNum++) 
 	{
-		if (strcmp(reg,regs[regNum]) == SAME)
+		MAXCHARS = get_min(reg_size,strlen(regs[regNum]));
+
+		if (strncmp(reg,regs[regNum],MAXCHARS) == SAME)
 		{
 			return regNum;
 		}
@@ -102,9 +128,9 @@ long int get_const(char *num_str)
 void create_opcode_arr(char *input_str,int op_codes[])
 {
 	/* Constants for initializing arrays. */
-	const int MAXINSTRSIZE = 5;			//Max instruction length
-	const int MAXREGSIZE = 4;			//Max register length
-	const int MAXCONSTSIZE = 5;			//Max const number length
+	const int MAXINSTRSIZE = 4;			//Max instruction length
+	const int MAXREGSIZE = 3;			//Max register length
+	const int MAXCONSTSIZE = 4;			//Max const number length
 	
 	/* Arrays to hold tokens. */
 	char instr[MAXINSTRSIZE];			//Holds instruction
@@ -123,16 +149,17 @@ void create_opcode_arr(char *input_str,int op_codes[])
 	/* Misc variables. */
 	char *token;					//Will hold tokens from parsing input.
 	int SAME = 0;					//Used for string comparison.
+	int cmp_size;					//Used in strncmp.
+	int cpy_size;					//Used in strncpy.
 
 	/* Get instruction. */
 	token = strtok(input_str," ");
 	strncpy(instr,token,MAXINSTRSIZE);
 	token = strtok(NULL," ");
 
-	printf("INSTRUCTION %s\n",instr);
-
 	/* If HALT, other set op-codes to 0. */
-	if (strncmp(instr,"HALT",MAXINSTRSIZE) == SAME)
+	cmp_size = get_min(strlen(instr),strlen("HALT"));
+	if (strncmp(instr,"HALT",cmp_size) == SAME)
 	{
 		instr_code = 0;
 		dest_reg_code = 0;
@@ -151,6 +178,7 @@ void create_opcode_arr(char *input_str,int op_codes[])
 		if (strstr(token,"#") != NULL)
 		{
 			strncpy(cnst_num,token,MAXCONSTSIZE);
+			printf("CNST: %s\n",cnst_num);
 			arg_reg1[0] = '\0';
 			arg_reg2[0] = '\0';
 		}
@@ -159,7 +187,9 @@ void create_opcode_arr(char *input_str,int op_codes[])
 		else
 		{
 			strncpy(arg_reg1,token,MAXREGSIZE);
+			printf("REG 1 token: %s\n",token);
 			token = strtok(NULL," ");
+			printf("REG 2 token: %s\n",token);
 			strncpy(arg_reg2,token,MAXREGSIZE);
 			cnst_num[0] = '\0';
 		}
@@ -170,6 +200,7 @@ void create_opcode_arr(char *input_str,int op_codes[])
 		arg_reg1_code = get_reg_code(arg_reg1);
 		arg_reg2_code = get_reg_code(arg_reg2);
 		cnst_num_code = get_const(cnst_num);
+
 	}
 
 	/* Set all vals in op_code arr. */
@@ -181,6 +212,7 @@ void create_opcode_arr(char *input_str,int op_codes[])
 
 	return;	
 }
+
 
 /**
  * Function that accepts a result string and
