@@ -10,13 +10,13 @@
 
 int main()
 {
-	//Tests for get_instr_code
-	printf("\n");
-	printf("INSTRUCTION CODE TEST\n");
-
-	char *c1 = "HALT";
-	char *c2 = "LOAD";
-	char *c3 = "ADD";
+	
+	//get_instr_code test
+	char c1[] = "HALT";
+	char c2[] = "LOAD";
+	char c3[] = "XOR";
+	char c4[] = "CJMP";
+	char c5[] = "INC";
 
 	printf("INSTRUCTION CODE FOR HALT: %d\n",get_instr_code(c1));
 	printf("EXPECTED: 0\n");
@@ -26,82 +26,88 @@ int main()
 	printf("EXPECTED: 1\n");
 	printf("\n");
 
-	printf("INSTRUCTION CODE FOR ADD: %d\n",get_instr_code(c3));
-	printf("EXPECTED: 2\n");
+	printf("INSTRUCTION CODE FOR XOR: %d\n",get_instr_code(c3));
+	printf("EXPECTED: 7\n");
 	printf("\n");
 
-	//Tests for get_reg_code
-	printf("REGISTER CODE TEST\n");
+	printf("INSTRUCTION CODE FOR CJMP: %d\n",get_instr_code(c4));
+	printf("EXPECTED: 9\n");
+	printf("\n");
 
-	char *r0 = "R0";
-	char *r1 = "R1";
-	char *r2 = "R2";
-	char *r3 = "R3";
+	printf("INSTRUCTION CODE FOR INC: %d\n",get_instr_code(c5));
+	printf("EXPECTED: 10\n");
+	printf("\n");
 
-	printf("REGISTER CODE FOR R0: %d\n",get_reg_code(r0));
+	//get_reg_code test
+	char r1[] = "R0";
+	char r2[] = "R7";
+	char r3[] = "R13";
+	char r4[] = "R15";
+	char r5[] = "R16";
+
+	printf("REG CODE FOR R0: %ld\n",get_reg_code(r1));
 	printf("EXPECTED: 0\n");
 	printf("\n");
 
-	printf("REGISTER CODE FOR R1: %d\n",get_reg_code(r1));
-	printf("EXPECTED: 1\n");
+	printf("REG CODE FOR R7: %ld\n",get_reg_code(r2));
+	printf("EXPECTED: 7\n");
 	printf("\n");
 
-	printf("REGISTER CODE FOR R2: %d\n",get_reg_code(r2));
-	printf("EXPECTED: 2\n");
+	printf("REG CODE FOR R13: %ld\n",get_reg_code(r3));
+	printf("EXPECTED: 13\n");
 	printf("\n");
 
-	printf("REGISTER CODE FOR R3: %d\n",get_reg_code(r3));
-	printf("EXPECTED: 3\n");
+	printf("REG CODE FOR R15: %ld\n",get_reg_code(r4));
+	printf("EXPECTED: 15\n");
 	printf("\n");
 
-	//Tests for get_const
-	printf("GET CONSTANT TEST\n");
-	
-	char *n0 = "#0";
-	char *n1 = "#7";
-	char *n2 = "#12";
-	char *n3 = "#144";
-	char *n4 = "";
+	printf("REG CODE FOR R16: %ld\n",get_reg_code(r5));
+	printf("EXPECTED: -1\n");
+	printf("\n");
 
-	printf("NUMBER FOR %s: %d\n",n4,get_const(n4));
+	//get_const test
+	char cn1[] = "#0";
+	char cn2[] = "#7";
+	char cn3[] = "#13";
+	char cn4[] = "#128";
+	char cn5[] = "#255";
+
+	printf("CNST CODE FOR #0: %d\n",get_const(cn1));
 	printf("EXPECTED: 0\n");
 	printf("\n");
 
-	//Tests for codes_to_hex and create_opcode_arr
-	printf("CODE TO HEX TEST AND CREATE OPCODE ARR TEST\n");
+	printf("CNST CODE FOR #7: %d\n",get_const(cn2));
+	printf("EXPECTED: 7\n");
+	printf("\n");
 
-	//Tests for create_hex_instr
+	printf("CNST CODE FOR #13: %d\n",get_const(cn3));
+	printf("EXPECTED: 13\n");
+	printf("\n");
+
+	printf("CNST CODE FOR #128: %d\n",get_const(cn4));
+	printf("EXPECTED: 128\n");
+	printf("\n");
+
+	printf("CNST CODE FOR #255: %d\n",get_const(cn5));
+	printf("EXPECTED: 255\n");
+	printf("\n");
+
+	//create_opcode_arr test
 	char i1[] = "HALT";
-	char i2[] = "LOAD R0 R3 R2";
-	char i3[] = "ADD R1 R3 R2";
-	char i4[] = "LOAD R3 #188";
+	char i2[] = "LOAD R2 #158";
+	char i3[] = "MULT R2 R5 R13";
+	char i4[] = "LOAD R15 #17";
 
-	char hex_result[20];
+	//create_hex_instr test.
+	char res[6];
 
-	//test1
-	create_hex_instr(i1,hex_result);
-	printf("INSTRUCTION: %s\n",hex_result);
-	printf("EXPECTED: 0x0\n");
-	printf("\n");
-
-	//test2
-	create_hex_instr(i2,hex_result);
-	printf("INSTRUCTION: %s\n",hex_result);
-	printf("EXPECTED: 0x1032\n");
-	printf("\n");
-
-	//test3
-	create_hex_instr(i3,hex_result);
-	printf("INSTRUCTION: %s\n",hex_result);
-	printf("EXPECTED: 0x2132\n");
-	printf("\n");
-
-	//test4
-	create_hex_instr(i4,hex_result);
-	printf("INSTRUCTION: %s\n",hex_result);
-	printf("EXPECTED: 0x13bc\n");
-	printf("\n");
+	create_hex_instr(i3,res);
+	printf("HEX INSTR FOR MULT R2 R5 R13: %s\n",res);
+	printf("EXPECTED: 0x425d\n");
 	
+
+
+
 	return 0;
 
 

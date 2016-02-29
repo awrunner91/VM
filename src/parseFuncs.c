@@ -15,7 +15,7 @@
 #define ERROR -1				//Used if invalid instruction/register
 
 /* Define possible instructions. */
-char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","XOR","JUMP","CJMP","INC"};
+char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","OR","NOT","INC","CMP","JUMP"};
 
 /**
  * Function to get the minimum of two integers.
@@ -142,12 +142,12 @@ void create_opcode_arr(char *input_str,int op_codes[])
 	char arg_reg2[MAXREGSIZE];		//Will hold argument 2 register.
 	char cnst_num[MAXCNSTSIZE];		//Will hold the constant.
 
-	/* Numbers for op-codes. */
-	int instr_code;				//Op-code for instruction.
-	int dest_reg_code;			//Op-code for destination register.
-	int arg_reg1_code;			//Op-code for argument 1 register.
-	int arg_reg2_code;			//Op-code for argument 2 register.
-	int cnst_code;				//Op-code for constant number.
+	/* Vars to hold codes. */
+	int instr_code;				//Code for instruction.
+	int dest_reg_code;			//Code for destination register.
+	int arg_reg1_code;			//Code for arg 1 register.
+	int arg_reg2_code;			//Code for arg 2 register.
+	int cnst_code;				//Code for numerical constant.
 
 	/* Misc. */
 	char *token;				//Token for parsing the input.
@@ -156,7 +156,46 @@ void create_opcode_arr(char *input_str,int op_codes[])
 	token = strtok(input_str," ");		//Assume space separated.
 	strncpy(instr,token,strlen(token));
 	instr_code = get_instr_code(instr);
+	token = strtok(NULL," ");
+	printf("TOKEN BEFORE SWITCH: %s\n",token);
 
+	/* Based on instruction, parse appropriately. */
+	switch(instr_code)
+	{
+		/* HALT */
+		case 0:
+			op_codes[0] = op_codes[1] = op_codes[2] = op_codes[3] = op_codes[4] = 0;
+			return;
+
+		/* LOAD */
+		case 1:
+			strncpy(dest_reg,token,strlen(token));
+			token = strtok(NULL," ");
+			strncpy(cnst_num,token,strlen(token));
+			arg_reg1[0] = '\0';			
+			arg_reg2[0] = '\0';
+			break;
+
+		/* ADD,SUB,MULT,DIV,AND,OR */
+		case 2 ... 7:
+			strncpy(dest_reg,token,strlen(token));
+			token = strtok(NULL," ");
+			strncpy(arg_reg1,token,strlen(token));
+			token = strtok(NULL," ");
+			strncpy(arg_reg2,token,strlen(token));
+			cnst_num[0] = '\0';
+			printf("YOURE IN HERE!\n");
+
+		
+		
+	}
+
+	/* Set op-code vals in op_code array. */
+	op_codes[0] = get_const(cnst_num);
+	op_codes[1] = get_reg_code(arg_reg2);
+	op_codes[2] = get_reg_code(arg_reg1);
+	op_codes[3] = get_reg_code(dest_reg);
+	op_codes[4] = instr_code;
 	
 	return;
 	
