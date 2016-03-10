@@ -27,7 +27,7 @@ int main()
 	/* Make sure allocated. */
 	if (buffer == NULL)
 	{
-		perror("Unable to allocate buffer memory\n");
+		perror("Unable to allocate buffer memory!\n");
 		exit(1);
 	}
 

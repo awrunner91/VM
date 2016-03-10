@@ -93,19 +93,29 @@ int main()
 	printf("\n");
 
 	//create_opcode_arr test
-	char i1[] = "HALT";
-	char i2[] = "LOAD R2 #158";
-	char i3[] = "MULT R2 R5 R13";
-	char i4[] = "LOAD R15 #17";
-
 	//create_hex_instr test.
 	char res[6];
+	char t1[] = "INC R2";
+	char t2[] = "NOT R4";	
+	char t3[] = "JUMP R13";
 
-	create_hex_instr(i3,res);
-	printf("HEX INSTR FOR MULT R2 R5 R13: %s\n",res);
-	printf("EXPECTED: 0x425d\n");
-	
+	//test i1
+	create_hex_instr(t1,res);
+	printf("INC R2: %s\n",res);
+	printf("EXPECTED: 0x9020\n");
+	printf("\n");
 
+	//test i2
+	create_hex_instr(t2,res);
+	printf("NOT R4: %s\n",res);
+	printf("EXPECTED: 0xa040\n");
+	printf("\n");
+
+	//test i3
+	create_hex_instr(t3,res);
+	printf("JUMP R13: %s\n",res);
+	printf("EXPECTED: 0xb0d0\n");
+	printf("\n");
 
 
 	return 0;

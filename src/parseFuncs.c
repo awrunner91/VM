@@ -9,13 +9,13 @@
 #include <string.h>
 #include <math.h>
 
-#define NUMCODES 11				//Number of instructions
+#define NUMCODES 12				//Number of instructions
 #define NUMREGS 16				//Number of registers
 #define SAME 0					//Used to strncmp
 #define ERROR -1				//Used if invalid instruction/register
 
 /* Define possible instructions. */
-char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","OR","NOT","INC","CMP","JUMP"};
+char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","OR","CMP","INC","NOT","JUMP"};
 
 /**
  * Function to get the minimum of two integers.
@@ -130,6 +130,7 @@ long int get_const(char *num_str)
 **/
 void create_opcode_arr(char *input_str,int op_codes[])
 {
+
 	/* Char array sizes for parsing. */
 	int MAXINSTRSIZE = 4;			//Max instruction length. 
 	int MAXREGSIZE = 3;			//Max register length.
@@ -157,7 +158,6 @@ void create_opcode_arr(char *input_str,int op_codes[])
 	strncpy(instr,token,strlen(token));
 	instr_code = get_instr_code(instr);
 	token = strtok(NULL," ");
-	printf("TOKEN BEFORE SWITCH: %s\n",token);
 
 	/* Based on instruction, parse appropriately. */
 	switch(instr_code)
@@ -176,18 +176,29 @@ void create_opcode_arr(char *input_str,int op_codes[])
 			arg_reg2[0] = '\0';
 			break;
 
-		/* ADD,SUB,MULT,DIV,AND,OR */
-		case 2 ... 7:
+		/* ADD,SUB,MULT,DIV,AND,OR,CMP */
+		case 2 ... 8:
 			strncpy(dest_reg,token,strlen(token));
 			token = strtok(NULL," ");
 			strncpy(arg_reg1,token,strlen(token));
 			token = strtok(NULL," ");
 			strncpy(arg_reg2,token,strlen(token));
 			cnst_num[0] = '\0';
-			printf("YOURE IN HERE!\n");
+			break;
 
-		
-		
+		/* INC,NOT,JMP */
+		case 9 ... 11:
+			strncpy(arg_reg1,token,strlen(token));
+			dest_reg[0] = '\0';
+			arg_reg2[0] = '\0';
+			cnst_num[0] = '\0';
+			break;
+
+		/* ERROR */
+		case -1:
+			printf("ERROR: INVALID INSTRUCTION!\n");
+			return;
+
 	}
 
 	/* Set op-code vals in op_code array. */
