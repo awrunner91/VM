@@ -9,13 +9,13 @@
 #include <string.h>
 #include <math.h>
 
-#define NUMCODES 15				//Number of instructions
+#define NUMCODES 16				//Number of instructions
 #define NUMREGS 16				//Number of registers
 #define SAME 0					//Used to strncmp
 #define ERROR -1				//Used if invalid instruction/register
 
 /* Define possible instructions. */
-char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","OR","CMP","GJMP","EJMP","LJMP","INC","NOT","JUMP"};
+char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","OR","CMP","GJMP","EJMP","LJMP","INC","NOT","JUMP","PRINT"};
 
 /**
  * Function to get the minimum of two integers.
@@ -186,8 +186,8 @@ void create_opcode_arr(char *input_str,int op_codes[])
 			cnst_num[0] = '\0';
 			break;
 
-		/* INC,NOT,JUMP */
-		case 12 ... 14:
+		/* INC,NOT,JUMP,PRINT */
+		case 12 ... 15:
 			strncpy(arg_reg1,token,strlen(token));
 			dest_reg[0] = '\0';
 			arg_reg2[0] = '\0';

@@ -48,14 +48,10 @@ int main()
 	/* Now iterate through instructions and execute. */
 	while (!finished)
 	{
-		printf("PC: %d\n",pc);		
 		hex_val = instr_array[pc];
 		execute_instr(hex_val,registers,&finished,&pc);
 		pc += 1;
 	}
-
-	printf("THE RESULT IS: %d\n",registers[0]);
-
 
 	free(buffer);
 	return 0;

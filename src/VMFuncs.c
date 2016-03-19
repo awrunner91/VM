@@ -239,6 +239,11 @@ void execute_instr(int code, int reg_arr[], bool *done, int *pc)
 		case 14:
 			*pc = reg_arr[arg_reg1] - 1;
 			break;
+
+		/* PRINT */
+		case 15:
+			printf("%d\n",reg_arr[arg_reg1]);
+			break;
 		
 	}
 }
