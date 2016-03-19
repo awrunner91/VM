@@ -130,6 +130,8 @@ void execute_instr(int code, int reg_arr[], int *done, int *pc)
 	int cnst_val = get_cnst_num(code);
 
 	int res;				//Result of computation for add,mul..
+	int v1;					//Used to minimize array access.
+	int v2;					//Used to minimize array access.
 
 	switch(instr_num)
 	{
@@ -153,13 +155,13 @@ void execute_instr(int code, int reg_arr[], int *done, int *pc)
 		/* SUB */
 		case 3:
 			res = reg_arr[arg_reg1] - reg_arr[arg_reg2];
-			reg_arr[dest_reg] = result;
+			reg_arr[dest_reg] = res;
 			break;
 
 		/* MULT */
 		case 4:
 			res = reg_arr[arg_reg1] * reg_arr[arg_reg2];
-			reg_arr[dest_reg] = result;
+			reg_arr[dest_reg] = res;
 			break;
 
 		/* DIV */
@@ -171,14 +173,73 @@ void execute_instr(int code, int reg_arr[], int *done, int *pc)
 		/* AND */
 		case 6:
 			res = reg_arr[arg_reg1] & reg_arr[arg_reg2];
-			reg_add[dest_reg] = res;
+			reg_arr[dest_reg] = res;
 			break;
 
 		/* OR */
 		case 7:
 			res = reg_arr[arg_reg1] | reg_arr[arg_reg2];
-			reg_add[dest_reg] = res;
+			reg_arr[dest_reg] = res;
 			break;
+
+		/* CMP */
+		case 8:
+			v1 = reg_arr[arg_reg1];
+			v2 = reg_arr[arg_reg2];
+
+			if (v1 > v2)
+			{
+				reg_arr[dest_reg] = 1;
+			}
+			else if (v1 == v2)
+			{
+				reg_arr[dest_reg] = 0;
+			}
+			else
+			{
+				reg_arr[dest_reg] = -1;
+			}
+			break;
+
+		/* GJMP */
+		case 9:
+			if (reg_arr[arg_reg1] > reg_arr[arg_reg2])
+			{
+				*pc = reg_arr[dest_reg];
+			}
+			break;
+
+		/* EJMP */
+		case 10:
+			if (reg_arr[arg_reg1] == reg_arr[arg_reg2])
+			{
+				*pc = reg_arr[dest_reg];
+			}
+			break;
+
+		/* LJMP */
+		case 11:
+			if (reg_arr[arg_reg1] < reg_arr[arg_reg2])
+			{
+				*pc = reg_arr[dest_reg];
+			}	
+			break;
+		
+		/* INC */
+		case 12:
+			reg_arr[arg_reg1] += 1;
+			break;
+
+		/* NOT */
+		case 13:
+			reg_arr[arg_reg1] = !(reg_arr[arg_reg1]);
+			break;
+		
+		/* JMP */
+		case 14:
+			*pc = reg_arr[arg_reg1];
+			break;
+		
 	}
 }
 

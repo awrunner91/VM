@@ -15,7 +15,7 @@
 #define ERROR -1				//Used if invalid instruction/register
 
 /* Define possible instructions. */
-char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","OR","CMP","INC","NOT","JUMP"};
+char *instructs[] = {"HALT","LOAD","ADD","SUB","MULT","DIV","AND","OR","CMP","GJMP","EJMP","LJMP","INC","NOT","JUMP"};
 
 /**
  * Function to get the minimum of two integers.
@@ -176,8 +176,8 @@ void create_opcode_arr(char *input_str,int op_codes[])
 			arg_reg2[0] = '\0';
 			break;
 
-		/* ADD,SUB,MULT,DIV,AND,OR,CMP */
-		case 2 ... 8:
+		/* ADD,SUB,MULT,DIV,AND,OR,CMP,GJMP,EJMP,LJMP */
+		case 2 ... 11:
 			strncpy(dest_reg,token,strlen(token));
 			token = strtok(NULL," ");
 			strncpy(arg_reg1,token,strlen(token));
@@ -186,8 +186,8 @@ void create_opcode_arr(char *input_str,int op_codes[])
 			cnst_num[0] = '\0';
 			break;
 
-		/* INC,NOT,JMP */
-		case 9 ... 11:
+		/* INC,NOT,JUMP */
+		case 12 ... 14:
 			strncpy(arg_reg1,token,strlen(token));
 			dest_reg[0] = '\0';
 			arg_reg2[0] = '\0';
