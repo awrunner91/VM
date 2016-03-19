@@ -9,6 +9,8 @@
 #ifndef VM_FUNCS
 #define VM_FUNCS
 
+#include <stdbool.h>
+
 /**
  * Function that accepts a instruction code
  * and returns the instruction number (0-15).
@@ -65,7 +67,7 @@ int get_cnst_num(int code_num);
  * pc: Pointer to program counter.
  * return: None.
 **/
-void execute_instr(int code, int reg_arr[], int *done, int *pc);
+void execute_instr(int code, int reg_arr[], bool *done, int *pc);
 
 
 #endif

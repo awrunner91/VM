@@ -9,7 +9,7 @@
 #include <string.h>
 #include <math.h>
 
-#define NUMCODES 12				//Number of instructions
+#define NUMCODES 15				//Number of instructions
 #define NUMREGS 16				//Number of registers
 #define SAME 0					//Used to strncmp
 #define ERROR -1				//Used if invalid instruction/register

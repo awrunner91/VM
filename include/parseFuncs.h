@@ -21,9 +21,9 @@ int get_instr_code(char *instr);
  * Function to get the register code from
  * a string.
  * reg: Pointer to register string (R0,R1,..R15).
- * return: Register code (integer from 0-15).
+ * return: Register code (integer from 0-15). Long because using strtol.
 **/
-int get_reg_code(char *reg);
+long int get_reg_code(char *reg);
 
 /**
  * Function to get a constant number from a 
@@ -56,7 +56,7 @@ void codes_to_hex(char *result,int op_codes[]);
 **/
 void create_opcode_arr(char *input_str,int op_codes[]);
 
-/*
+/**
  * Function to generate a hexadecimal instruction
  * string from an input line (from the assembly file).
  * input_str: Pointer to input string (from asm file).
@@ -65,5 +65,12 @@ void create_opcode_arr(char *input_str,int op_codes[]);
 **/
 void create_hex_instr(char *input_str,char *result);
 
+/**
+ * Function to get the minimum of two integers.
+ * a: First argument.
+ * b: Second argument.
+ * return: Integer size of smaller of a and b.
+**/
+int get_min(int a,int b);
 
 #endif

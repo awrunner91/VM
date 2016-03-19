@@ -120,7 +120,7 @@ int get_cnst_num(int code_num)
  * pc: Pointer to program counter.
  * return: None.
 **/
-void execute_instr(int code, int reg_arr[], int *done, int *pc)
+void execute_instr(int code, int reg_arr[], bool *done, int *pc)
 {
 	/* Decode */
 	int instr_num = get_instr_num(code);
@@ -205,7 +205,7 @@ void execute_instr(int code, int reg_arr[], int *done, int *pc)
 		case 9:
 			if (reg_arr[arg_reg1] > reg_arr[arg_reg2])
 			{
-				*pc = reg_arr[dest_reg];
+				*pc = reg_arr[dest_reg] - 1;		//Subtract since incremented after.
 			}
 			break;
 
@@ -213,7 +213,7 @@ void execute_instr(int code, int reg_arr[], int *done, int *pc)
 		case 10:
 			if (reg_arr[arg_reg1] == reg_arr[arg_reg2])
 			{
-				*pc = reg_arr[dest_reg];
+				*pc = reg_arr[dest_reg] - 1;
 			}
 			break;
 
@@ -221,7 +221,7 @@ void execute_instr(int code, int reg_arr[], int *done, int *pc)
 		case 11:
 			if (reg_arr[arg_reg1] < reg_arr[arg_reg2])
 			{
-				*pc = reg_arr[dest_reg];
+				*pc = reg_arr[dest_reg] - 1;
 			}	
 			break;
 		
@@ -237,7 +237,7 @@ void execute_instr(int code, int reg_arr[], int *done, int *pc)
 		
 		/* JMP */
 		case 14:
-			*pc = reg_arr[arg_reg1];
+			*pc = reg_arr[arg_reg1] - 1;
 			break;
 		
 	}

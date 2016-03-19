@@ -2,13 +2,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-void get_instruction(char *line, char *instr);
+
+void alter_array(int arr[])
+{
+	arr[0] = 17;
+}
+
+void change_num(int *a)
+{
+	*a = 13;
+}
 
 int main()
 {
-	char test[10];
-	strncpy(test,NULL,5);
+	int a = 4;
+	int b = 2;
+	int res = a | b;
 
+	printf("RES: %d\n",res);
+	
 	return 0;
-
 }

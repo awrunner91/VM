@@ -41,14 +41,17 @@ int main()
 	while (fgets(buffer,BUFFSIZE,stdin) != NULL)
 	{
 		hex_val = (int)strtol(buffer,NULL,0);
-		instr_array[index++] = hex_val;
+		instr_array[index] = hex_val;
+		index += 1;
 	}
 
 	/* Now iterate through instructions and execute. */
 	while (!finished)
 	{
+		printf("PC: %d\n",pc);		
 		hex_val = instr_array[pc];
-		execute_instr(hex_val,registers,finished,pc);
+		execute_instr(hex_val,registers,&finished,&pc);
+		pc += 1;
 	}
 
 	printf("THE RESULT IS: %d\n",registers[0]);
